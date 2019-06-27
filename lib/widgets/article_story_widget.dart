@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +8,7 @@ import 'package:oneminute/model/article.dart';
 import 'package:oneminute/model/article_response.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:oneminute/widgets/detail_article.dart';
+import 'package:quiver/async.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ArticleStoryWidget extends StatefulWidget {
@@ -16,20 +19,10 @@ class ArticleStoryWidget extends StatefulWidget {
 }
 
 class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
-  void changePageViewPostion(int whichPage) {
-    if (controller != null) {
-      whichPage = whichPage + 1; // because position will start from 0
-      double jumpPosition = MediaQuery.of(context).size.width / 2;
-      double orgPosition = MediaQuery.of(context).size.width / 2;
-      for (int i = 0; i < 10; i++) {
-        controller.jumpTo(jumpPosition);
-        if (i == whichPage) {
-          break;
-        }
-        jumpPosition = jumpPosition + orgPosition;
-      }
-    }
-  }
+  int _start = 5;
+  int size = 10;
+  int _current = 10;
+  int _page = 2;
 
   PageController controller =
       PageController(viewportFraction: 1, keepPage: true);
@@ -38,12 +31,25 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
-      setState(() {
-        currentPageValue = controller.page;
-      });
-    });
-    articleBloc.getArticle();
+    CountdownTimer countDownTimer = new CountdownTimer(
+    new Duration(seconds: _start),
+    new Duration(seconds: 1),
+  );
+
+  var sub = countDownTimer.listen(null);
+  sub.onData((duration) {
+    setState(() { _current = _start - duration.elapsed.inSeconds; });
+  });
+
+  sub.onDone(() {
+    Timer.periodic(new Duration(seconds: 5), (timer) {
+   controller.jumpToPage(_page++);
+});
+    controller.jumpToPage(_page++);
+    sub.cancel();
+  });
+   
+    articleBloc.getArticle(size);
   }
 
   @override
@@ -76,24 +82,7 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 40.0, left: 50.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                controller
-                                    .jumpToPage(currentPageValue.toInt() + 1);
-                              });
-                            },
-                            icon: Icon(
-                              EvaIcons.plusCircle,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      
                       Padding(
                           padding:
                               EdgeInsets.only(top: 30, left: 10.0, right: 10.0),
@@ -163,9 +152,9 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
                               FadeInImage.assetNetwork(
                                   alignment: Alignment.topCenter,
                                   placeholder: 'images/placeholder.png',
-                                  image: articles[index].urlToImage == null
+                                  image: articles[index].picture == null
                                       ? "http://to-let.com.bd/operator/images/noimage.png"
-                                      : articles[index].urlToImage,
+                                      : articles[index].picture,
                                   fit: BoxFit.cover,
                                   width: double.maxFinite,
                                   height: MediaQuery.of(context).size.height),
@@ -197,7 +186,7 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
                                 Expanded(
                                     child: Align(
                                   alignment: Alignment.bottomLeft,
-                                  child: Text(articles[index].source.name,
+                                  child: Text(articles[index].source.domain,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -212,7 +201,7 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => DetailArticle(
-                                                url: articles[index].url)));
+                                                article: articles[index])));
                                   },
                                   child: Text(articles[index].title,
                                       style: TextStyle(
@@ -231,7 +220,7 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
                                       children: <Widget>[
                                         Text(
                                           timeUntil(DateTime.parse(
-                                              articles[index].publishDate)),
+                                              articles[index].source.date)),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -280,7 +269,7 @@ class _ArticleStoryWidgetState extends State<ArticleStoryWidget> {
 
   Future<void> _refreshNews() async {
     print('refreshing stocks...');
-    articleBloc.getArticle();
+    articleBloc.getArticle(size);
   }
 
   String timeUntil(DateTime date) {

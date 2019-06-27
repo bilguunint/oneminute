@@ -1,27 +1,28 @@
+import 'package:oneminute/model/category.dart';
 import 'package:oneminute/model/source.dart';
 
 class Article {
-  final String author;
+  final int id;
   final String title;
-  final String description;
+  final String published;
+  final String picture;
   final String url;
-  final String urlToImage;
-  final String publishDate;
-  final String content;
+  final String text;
   final Source source;
+  final Category category;
 
 
-  Article(this.author, this.content, this.description, this.publishDate, this.title, this.url, this.urlToImage, this.source);
+  Article(this.id, this.picture, this.text, this.title, this.url, this.source, this.published, this.category);
 
   Article.fromJson(Map<String, dynamic> json)
-      : author = json["author"],
+      : id = json["id"],
       title = json["title"] ?? "",
-      description = json["description"] ?? "",
+      picture = json["picture"] ?? "",
       url = json["url"],
-      urlToImage = json["urlToImage"] ?? "",
-      publishDate = json["publishedAt"],
-      source = Source.fromJson(json["source"]),
-      content = json["content"] ?? "";
+      source = Source.fromJson(json["web"]),
+      published = json["published"] ?? "",
+      category = json["category"] ?? Category.fromJson(json["web"]),
+      text = json["text"] ?? "";
 }
 
 

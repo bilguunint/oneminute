@@ -1,8 +1,10 @@
 class Source {
-  final String id;
-  final String name;
-  Source(this.id, this.name);
+  final int id;
+  final String domain;
+  final String date;
+  Source(this.id, this.domain, this.date);
   Source.fromJson(Map<String, dynamic> json)
   : id = json["id"],
-  name = json["name"];
+  domain = json["domain"],
+  date = json["lastCrawled"];
 }

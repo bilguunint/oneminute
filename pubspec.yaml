@@ -31,6 +31,8 @@ dependencies:
   flutter_icons: ^0.1.4
   timeago: ^2.0.16
   liquid_pull_to_refresh: ^1.1.1
+  html: ^0.14.0+2
+  flutter_html: ^0.10.1+hotfix.1
  
 
 dev_dependencies:
@@ -76,6 +78,30 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+      - family: Mont
+        fonts:
+          - asset: assets/fonts/MontRegular.otf
+
+      - family: MontHeavy
+        fonts:
+          - asset: assets/fonts/MontHeavy_2.otf
+      
+      - family: Rubik
+        fonts:
+          - asset: assets/fonts/Rubik/Rubik-Regular.ttf
+      
+      - family: RubikBold
+        fonts:
+          - asset: assets/fonts/Rubik/Rubik-Bold.ttf
+      
+      - family: MontBold
+        fonts:
+          - asset: assets/fonts/Mont/Mont-Bold.ttf 
+
+      - family: MontReg
+        fonts:
+          - asset: assets/fonts/Mont/Mont-Regular.ttf 
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -8,7 +8,7 @@ class ArticleResponse {
 
   ArticleResponse.fromJson(Map<String, dynamic> json)
       : results =
-            (json["articles"] as List).map((i) => new Article.fromJson(i)).toList(),
+            (json["content"] as List).map((i) => new Article.fromJson(i)).toList(),
         error = "";
 
   ArticleResponse.withError(String errorValue)

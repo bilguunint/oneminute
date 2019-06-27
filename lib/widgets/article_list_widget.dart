@@ -14,10 +14,11 @@ class ArticleListWidget extends StatefulWidget {
 }
 
 class _ArticleListWidgetState extends State<ArticleListWidget> {
+  int size = 10;
   @override
   void initState() {
     super.initState();
-    articleBloc.getArticle();
+    articleBloc.getArticle(size);
   }
 
   @override
@@ -89,7 +90,7 @@ class _ArticleListWidgetState extends State<ArticleListWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(articles[index].source.name,
+                    Text(articles[index].source.domain,
                         style: TextStyle(
                             color: Style.Colors.mainColor,
                             fontWeight: FontWeight.bold,
@@ -114,7 +115,7 @@ class _ArticleListWidgetState extends State<ArticleListWidget> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text(articles[index].publishDate.substring(0, 10),
+                              Text(articles[index].source.date.substring(0, 10),
                                   style: TextStyle(
                                       color: Colors.black26,
                                       fontWeight: FontWeight.bold,
@@ -123,7 +124,7 @@ class _ArticleListWidgetState extends State<ArticleListWidget> {
                                 width: 5.0,
                               ),
                               Text(
-                                  articles[index].publishDate.substring(11, 16),
+                                  articles[index].source.date.substring(11, 16),
                                   style: TextStyle(
                                       color: Colors.black26,
                                       fontWeight: FontWeight.bold,
@@ -168,11 +169,11 @@ class _ArticleListWidgetState extends State<ArticleListWidget> {
                 child: FadeInImage.assetNetwork(
                         alignment: Alignment.topCenter,
                         placeholder: 'images/placeholder.png',
-                        image: articles[index].urlToImage == null 
+                        image: articles[index].picture == null 
                         ?
                         "http://to-let.com.bd/operator/images/noimage.png"
                         :
-                        articles[index].urlToImage
+                        articles[index].picture
                         ,
                         fit: BoxFit.fitHeight,
                         width: double.maxFinite,

@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:oneminute/model/article_response.dart';
 
 class ArticleApiProvider{
-  final String _endpoint = "https://newsapi.org/v2/top-headlines?country=us&apiKey=3c8673ddff2f42eb81b5dfe63aec7be0";
+  final String _endpoint = "http://webcrawler.tugnetwork.mn/mapi/pages?web=60&sort=published,desc";
   final Dio _dio = Dio();
 
-  Future<ArticleResponse> getArticle() async {
+  Future<ArticleResponse> getArticle(int size) async {
     try {
-      Response response = await _dio.get(_endpoint);
+      Response response = await _dio.get("http://webcrawler.tugnetwork.mn/mapi/pages?sort=published,desc&size=${size}");
       return ArticleResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");

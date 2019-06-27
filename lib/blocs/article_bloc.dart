@@ -7,8 +7,8 @@ class ArticleBloc {
   final BehaviorSubject<ArticleResponse> _subject =
       BehaviorSubject<ArticleResponse>();
 
-  getArticle() async {
-    ArticleResponse response = await _repository.getArticle();
+  getArticle(int size) async {
+    ArticleResponse response = await _repository.getArticle(size);
     _subject.sink.add(response);
   }
 

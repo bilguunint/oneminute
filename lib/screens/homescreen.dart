@@ -46,11 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0.0,
           backgroundColor: Colors.white,
           title: new Text(
-            "One Minute",
+            "eagle",
             style: TextStyle(
                 fontSize: Theme.of(context).platform == TargetPlatform.iOS
-                    ? 17.0
-                    : 20.0,
+                    ? 20.0
+                    : 24.0,
                 color: Colors.black,
                 fontWeight: FontWeight.bold),
           ),
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _alertArea() {
     return Center(
       child: Text(
-        'Notifications Screen',
+        'Test Screen',
         style: TextStyle(
           fontWeight: FontWeight.w700,
           color: Colors.red,
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _settingsArea() {
     return Center(
       child: Text(
-        'Settings Screen',
+        'Test Screen',
         style: TextStyle(
           fontWeight: FontWeight.w700,
           color: Colors.blue,

@@ -4,7 +4,7 @@ import 'package:oneminute/providers/article_provider.dart';
 class UserRepository{
   ArticleApiProvider _apiProvider = ArticleApiProvider();
 
-  Future<ArticleResponse> getArticle(){
-    return _apiProvider.getArticle();
+  Future<ArticleResponse> getArticle(int size){
+    return _apiProvider.getArticle(size);
   }
 }
